@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="extra.css">
 </head>
 <body>
 <main class="page">
@@ -25,7 +26,7 @@
 <input type="text" id="name" autocomplete="off" maxlength="40">
 </label>
 <p class="scale">1 = naja · 3 = lecker · 5 = Wahnsinn. Tippe eine Zahl nochmal an, um sie zu löschen.</p>
-<p class="privacy">Deine Angaben bleiben auf diesem Handy gespeichert. Niemand sonst sieht sie.</p>
+<p class="privacy">Deine Angaben bleiben auf diesem Handy, bis du unten deinen Ergebnis-Code verschickst.</p>
 </div>
 
 <div class="cards" id="cards"></div>
@@ -44,6 +45,22 @@
 <label class="field drinkq" for="drink">Bestes Getränk zum Fleisch
 <input type="text" id="drink" autocomplete="off" maxlength="60">
 </label>
+
+<section class="done" aria-labelledby="done-h">
+<h2 id="done-h">Fertig?</h2>
+<p>Erzeuge deinen Ergebnis-Code und schick ihn dem Grillmeister, zum Beispiel per Messenger. Er wertet alle Codes gemeinsam aus. Deine Notizen stecken nicht im Code.</p>
+<button type="button" class="btn" id="make">Ergebnis-Code erzeugen</button>
+<p class="msg" id="makemsg" role="status"></p>
+<div class="codebox" id="codebox" hidden>
+<label for="code">Dein Code</label>
+<textarea id="code" readonly rows="4"></textarea>
+<div class="row-btns">
+<button type="button" class="btn alt" id="copy">Code kopieren</button>
+<button type="button" class="btn alt" id="share" hidden>Teilen</button>
+</div>
+<p class="msg" id="codemsg" role="status"></p>
+</div>
+</section>
 
 <div class="actions">
 <a class="btn alt" href="index.html">Zurück zur Speisekarte</a>
@@ -71,10 +88,18 @@
   var CRIT = [
     ['zart', 'Zartheit'], ['saft', 'Saftigkeit'], ['wuerze', 'Würze'], ['kruste', 'Kruste']
   ];
+  var KEYS = ['zart', 'saft', 'wuerze', 'kruste', 'gesamt'];
   var FAV = [['tritip', 'Tri Tip'], ['flatiron', 'Flat Iron'], ['entrecote', 'Entrecôte'], ['sweetheart', 'Sweetheart']];
   var DUELL = [['entrecote', 'Entrecôte'], ['sweetheart', 'Sweetheart'], ['unentschieden', 'Unentschieden']];
+  var FAVIDX = { tritip: 1, flatiron: 2, entrecote: 3, sweetheart: 4 };
+  var DUELLIDX = { entrecote: 1, sweetheart: 2, unentschieden: 3 };
   var KEY = 'grillfreitag-bewertung-v1';
   var HEART = '<svg viewBox="0 0 100 94" aria-hidden="true"><path d="M50 88 C8 58 4 28 26 18 C40 13 48 20 50 30 C52 20 60 13 74 18 C96 28 92 58 50 88 Z"/></svg>';
+
+  var codeBox = document.getElementById('codebox');
+  var codeEl = document.getElementById('code');
+  var makeMsg = document.getElementById('makemsg');
+  var codeMsg = document.getElementById('codemsg');
 
   var state = { name: '', fav: '', duell: '', drink: '', cuts: {} };
   CUTS.forEach(function (c) { state.cuts[c.id] = { zart: 0, saft: 0, wuerze: 0, kruste: 0, gesamt: 0, notiz: '' }; });
@@ -87,13 +112,33 @@
       state.name = s.name || ''; state.fav = s.fav || ''; state.duell = s.duell || ''; state.drink = s.drink || '';
       CUTS.forEach(function (c) {
         var o = (s.cuts && s.cuts[c.id]) || {};
-        ['zart', 'saft', 'wuerze', 'kruste', 'gesamt'].forEach(function (k) { state.cuts[c.id][k] = +o[k] || 0; });
+        KEYS.forEach(function (k) { state.cuts[c.id][k] = +o[k] || 0; });
         state.cuts[c.id].notiz = o.notiz || '';
       });
     } catch (e) {}
   }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    if (!codeBox.hidden) codeEl.value = makeCode();
+  }
+
+  function b64(s) {
+    var bytes = new TextEncoder().encode(s);
+    var bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function makeCode() {
+    var d = '';
+    CUTS.forEach(function (c) { KEYS.forEach(function (k) { d += state.cuts[c.id][k]; }); });
+    d += (FAVIDX[state.fav] || 0);
+    d += (DUELLIDX[state.duell] || 0);
+    return 'GF1.' + d + '.' + b64(state.name.trim()) + '.' + b64(state.drink.trim());
+  }
+  function anythingRated() {
+    var any = !!(state.fav || state.duell);
+    CUTS.forEach(function (c) { KEYS.forEach(function (k) { if (state.cuts[c.id][k] > 0) any = true; }); });
+    return any;
   }
 
   function build() {
@@ -171,12 +216,51 @@
     save();
   });
 
+  /* Ergebnis-Code */
+  document.getElementById('make').addEventListener('click', function () {
+    codeMsg.textContent = '';
+    if (!anythingRated()) {
+      codeBox.hidden = true;
+      makeMsg.textContent = 'Vergib erst ein paar Zahlen oder Herzen, dann gibt es einen Code.';
+      return;
+    }
+    makeMsg.textContent = '';
+    codeEl.value = makeCode();
+    codeBox.hidden = false;
+    codeMsg.textContent = 'Der Code ändert sich mit, wenn du noch etwas an deinem Bogen änderst.';
+  });
+  codeEl.addEventListener('focus', function () { codeEl.select(); });
+  document.getElementById('copy').addEventListener('click', function () {
+    var manual = 'Markiere den Code und kopiere ihn von Hand.';
+    function fallback() {
+      codeEl.focus(); codeEl.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      codeMsg.textContent = ok ? 'Kopiert. Jetzt dem Grillmeister schicken.' : manual;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(codeEl.value).then(function () {
+        codeMsg.textContent = 'Kopiert. Jetzt dem Grillmeister schicken.';
+      }, fallback);
+    } else {
+      fallback();
+    }
+  });
+  var shareBtn = document.getElementById('share');
+  if (navigator.share) {
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', function () {
+      navigator.share({ title: 'Mein Steak-Tasting-Code', text: codeEl.value }).catch(function () {});
+    });
+  }
+
   var confirmBox = document.getElementById('confirm');
   document.getElementById('reset').addEventListener('click', function () { confirmBox.hidden = false; });
   document.getElementById('no').addEventListener('click', function () { confirmBox.hidden = true; });
   document.getElementById('yes').addEventListener('click', function () {
     state.name = ''; state.fav = ''; state.duell = ''; state.drink = '';
     CUTS.forEach(function (c) { state.cuts[c.id] = { zart: 0, saft: 0, wuerze: 0, kruste: 0, gesamt: 0, notiz: '' }; });
+    codeBox.hidden = true; codeEl.value = ''; makeMsg.textContent = ''; codeMsg.textContent = '';
     save(); fillFields(); paint(); confirmBox.hidden = true;
   });
 
