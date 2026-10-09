@@ -420,7 +420,7 @@
     {
       id: 'pfeffer', title: 'Wilder Madagaskar-Pfeffer', teaser: 'Selbst mörsern, kein gewöhnlicher Pfeffer',
       facts: [
-        ['Was ist das?', 'Wahrscheinlich Voatsiperifery, ein wilder Pfeffer aus Madagaskar. Er ist botanisch mit dem Schwarzen Pfeffer verwandt, aber eine andere Art. Er wächst als Kletterpflanze wild im Regenwald und wird dort von Hand gesammelt.'],
+        ['Was ist das?', 'Voatsiperifery, ein wilder Pfeffer aus Madagaskar. Er ist botanisch mit dem Schwarzen Pfeffer verwandt, aber eine andere Art. Er wächst als Kletterpflanze wild im Regenwald und wird dort von Hand gesammelt.'],
         ['Woran erkennt man ihn?', 'Die kleinen dunklen Beeren haben einen langen dünnen Stiel, wie kleine Kirschen. Den Stiel nicht abmachen, er kommt mit in den Mörser.'],
         ['Wie schmeckt er?', 'Holzig und würzig, dazu zitronig und blumig und mit einer leichten Schärfe. Er ist weniger scharf als Schwarzer Pfeffer, dafür aromatischer.'],
         ['Wie nimmt man ihn?', 'Frisch im Mörser zerstoßen und zum Schluss aufs Fleisch geben, zusammen mit dem Fleur de Sel. Beim Mörsern bitte nicht zu fein, damit die Stücke knacken.']
