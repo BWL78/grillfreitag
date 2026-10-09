@@ -1,6 +1,22 @@
 (function () {
   /* Daten. Fotos liegen später unter fotos/<id>.jpg, fehlt eins, wird es einfach nicht gezeigt.
      "origin" (Herkunft laut Packung) wird nach dem Einkauf ergänzt, solange leer, bleibt die Zeile weg. */
+  /* Beispielbilder von Wikimedia Commons: [Dateiname, Urheber, Lizenz]. Eigene Fotos unter fotos/<id>.jpg haben Vorrang. */
+  var PHOTOS = {
+    tritip: ['Tri-tip-MCB.jpg', 'MCB (English Wikipedia)', 'CC BY-SA 2.5'],
+    flatiron: ['Flat Iron Steak with Fried Garlic.jpg', 'Ceeseven', 'CC BY-SA 4.0'],
+    entrecote: ['Perfect Entrecote (2454655127).jpg', 'FotoosVanRobin', 'CC BY-SA 2.0'],
+    grillwurst: ['Bratwürste auf dem Grill.JPG', '4028mdk09', 'CC BY-SA 3.0'],
+    aperol: ['Aperol Spritz - July 2024 - Sarah Stierch.jpg', 'Missvain', 'CC0'],
+    kir: ['Kir Royal.jpg', 'Martin Asche', 'CC BY-SA 3.0'],
+    bier: ['Beer wuerzburger hofbraue v.jpg', 'Christian Horvat', 'CC BY-SA 3.0'],
+    cahors: ['Chateau lagrezette cahors cru d\'exception 2003.jpg', 'mari', 'CC BY 2.0'],
+    grauburgunder: ['Pinot Gris VT 2001 in glass.jpg', 'Tomas er', 'CC BY-SA 3.0'],
+    viognier: ['Viognier.jpg', 'Anachronist', 'gemeinfrei'],
+    gin: ['Gin and Tonic with ingredients.jpg', 'NotFromUtrecht', 'CC BY-SA 3.0'],
+    brand: ['Mirabelle, sloe, and pear schnaps.jpg', 'Wikimedia-Commons-Nutzer', 'CC BY-SA 4.0']
+  };
+
   var DISHES = [
     {
       id: 'grillwurst', num: '1', title: 'Grillwurst',
@@ -99,6 +115,7 @@
             ['Woher?', 'Aus der Gegend um die Stadt Cahors im Département Lot, Südwestfrankreich. Die Weinberge liegen vor allem westlich der Stadt auf Kiesterrassen in den Schleifen des Flusses Lot.'],
             ['Welche Rebsorte?', 'Mindestens 70 % Malbec, der dort „Côt“ oder „Auxerrois“ heißt. Dazu dürfen bis zu 30 % Merlot und Tannat kommen.'],
             ['Geschichte', 'Hier wird seit der Römerzeit Wein gemacht, etwa seit 50 v. Chr. Im 13. Jahrhundert verschifften Händler den „schwarzen Wein“ über Bordeaux nach England, später gelangte er bis nach Russland. Die Reblaus zerstörte die Weinberge ab 1883, ein Frost im Februar 1956 machte eine große Neupflanzung nötig. Seit 1971 trägt er die Herkunftsbezeichnung AOC.'],
+            ['Heute Abend', 'Der Cahors kommt aus der 5-Liter-Box und wird vor dem Servieren in eine Karaffe gefüllt, damit er Luft bekommt.'],
             ['Im Glas', 'Tiefdunkel, kräftig und mit festen Tanninen. Das ist ein guter Partner für Fleisch mit Kruste.']
           ]
         },
@@ -116,6 +133,7 @@
           facts: [
             ['Die Rebsorte', 'Der Viognier stammt aus dem nördlichen Rhônetal. Er war nach der Reblauskrise fast verschwunden: In den späten 1960ern standen dort nur noch rund 12 Hektar. Winzer wie Georges Vernay brachten ihn zurück, heute wird er auf der ganzen Welt angebaut.'],
             ['Im Glas', 'Sehr aromatisch: Aprikose, Pfirsich, Honig und Geißblatt. Er hat wenig Säure und wirkt dadurch weich und rund.'],
+            ['Pays d’Oc', 'Pays d’Oc ist eine Herkunftsangabe für Weine aus dem Süden Frankreichs (Languedoc-Roussillon). Der Viognier wächst dort längst nicht mehr nur an der Rhône.'],
             ['Der berühmteste Verwandte', 'Condrieu im Rhônetal: teuer, weil der Anbau auf steilen Granithängen aufwendig ist und nur wenig wächst.']
           ]
         }
@@ -184,21 +202,47 @@
     return s;
   }
 
-  function photo(id) {
+  function photo(d) {
     var wrap = el('figure', 'foto');
     wrap.hidden = true;
     var img = new Image();
     img.alt = '';
-    img.onload = function () { wrap.hidden = false; };
-    img.onerror = function () { wrap.hidden = true; };
-    img.src = 'fotos/' + id + '.jpg';
+    var ex = PHOTOS[d.id];
+    var cap = el('figcaption');
+    cap.hidden = true;
     wrap.appendChild(img);
+    wrap.appendChild(cap);
+    var tried = false;
+    img.onload = function () { wrap.hidden = false; };
+    img.onerror = function () {
+      if (!tried && ex) {
+        tried = true;
+        cap.appendChild(document.createTextNode('Beispielbild: ' + ex[1] + ', ' + ex[2] + ', '));
+        var a = el('a', null, 'Wikimedia Commons');
+        a.href = 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(ex[0].replace(/ /g, '_'));
+        a.target = '_blank';
+        a.rel = 'noopener';
+        cap.appendChild(a);
+        cap.hidden = false;
+        img.src = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(ex[0]) + '?width=800';
+      } else {
+        wrap.hidden = true;
+      }
+    };
+    wrap._load = function () { img.src = 'fotos/' + d.id + '.jpg'; };
     return wrap;
+  }
+
+  function loadPhotos(root) {
+    var f = root.querySelectorAll('figure.foto');
+    for (var i = 0; i < f.length; i++) {
+      if (f[i]._load) { f[i]._load(); f[i]._load = null; }
+    }
   }
 
   function detailBody(d) {
     var box = el('div', 'detail-in');
-    box.appendChild(photo(d.id));
+    box.appendChild(photo(d));
     if (d.cut) {
       var fig = el('div', 'cowfig');
       fig.appendChild(cowDiagram(d.cut));
@@ -262,6 +306,7 @@
       btn.setAttribute('aria-expanded', open ? 'false' : 'true');
       panel.hidden = open;
       wrap.classList.toggle('open', !open);
+      if (!open) loadPhotos(panel);
     });
     return wrap;
   }
@@ -287,6 +332,7 @@
         btns[i].setAttribute('aria-expanded', allOpen ? 'true' : 'false');
         var p = document.getElementById(btns[i].getAttribute('aria-controls'));
         p.hidden = !allOpen;
+        if (allOpen) loadPhotos(p);
         btns[i].parentNode.classList.toggle('open', allOpen);
       }
       allBtn.textContent = allOpen ? 'Alle zuklappen' : 'Alle aufklappen';
