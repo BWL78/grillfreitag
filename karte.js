@@ -100,12 +100,6 @@
       title: 'Zum Fleisch',
       items: [
         {
-          id: 'bier', title: 'Bier', teaser: 'Eiskalt. Der Klassiker zum Grillen.',
-          facts: [
-            ['Warum passt es?', 'Bier ist bitter und prickelt. Das räumt zwischen zwei Bissen den Gaumen auf und passt gut zu Röstaromen von der Kruste.']
-          ]
-        },
-        {
           id: 'cahors', title: 'Cahors, Clos de Pougette', teaser: 'Kräftiger Rotwein, der Partner fürs Finale',
           facts: [
             ['Woher?', 'Aus der Gegend um die Stadt Cahors im Département Lot, Südwestfrankreich. Die Weinberge liegen vor allem westlich der Stadt auf Kiesterrassen in den Schleifen des Flusses Lot.'],
@@ -135,6 +129,86 @@
         }
       ],
       note: 'Je nur 1 Flasche: Probieren ja, Leertrinken nein!'
+    },
+    {
+      title: 'Die Bierkarte',
+      items: [
+        {
+          id: 'bierwahl', title: 'Welches Bier zu welchem Fleisch?', teaser: 'Der Überblick zum Mitnehmen ans Glas',
+          facts: [
+            ['Grillwurst', 'Pils (Karlsberg, Tannenzäpfle) oder ein Weizen. Würzige Wurst verträgt Bitterkeit und Kohlensäure.'],
+            ['Tri-Tip', 'Ratz Pale Ale. Das Fleisch hat Rauch und Gewürzkruste, da hält ein hopfiges Bier mit.'],
+            ['Flat Iron', 'Ratz Blonde oder Tannenzäpfle. Das nussige, zarte Fleisch braucht ein Bier, das nicht dazwischenfunkt.'],
+            ['Entrecôte', 'Guinness. Röstaromen und cremiger Schaum passen zur Kruste und zum Fett am Rand.'],
+            ['Sweetheart', 'Ratz Blonde oder ein Weizen. Das Fleisch ist fein und mild, also lieber leichtes Bier.'],
+            ['Faustregel', 'Je kräftiger Kruste und Rauch, desto dunkler oder hopfiger das Bier. Je zarter das Fleisch, desto heller und milder. Das sind Vorschläge, kein Gesetz: Probieren ist erlaubt.']
+          ]
+        },
+        {
+          id: 'ratz', title: 'Ratz Blonde und Ratz Pale Ale (0,75 l)', teaser: 'Zwei Handwerksbiere aus dem Lot, Südwestfrankreich',
+          facts: [
+            ['Woher?', 'Von der Brasserie Artisanale Ratz in Fontanes im Département Lot. Christophe Ratz hat die Brauerei dort 2001 wiederbelebt.'],
+            ['Wie gebraut?', 'Laut Brauerei aus reinem Malz und aromatischem Hopfen, naturbelassen und nicht pasteurisiert.'],
+            ['Blonde', 'Auf dem Etikett stehen 5 % vol. Ein helles, rundes Bier.'],
+            ['Pale Ale', 'Auf dem Etikett „R de Ratz“. Ein hopfigeres Bier mit mehr Aroma und etwas kräftiger als das Blonde.'],
+            ['Passt zu', 'Blonde: Flat Iron und Sweetheart. Pale Ale: Tri-Tip und Entrecôte.']
+          ]
+        },
+        {
+          id: 'guinness', title: 'Guinness (Dose, 0,42 l)', teaser: 'Das schwarze Bier aus Dublin',
+          facts: [
+            ['Woher?', 'Aus Dublin in Irland. Arthur Guinness gründete die Brauerei 1759 an der St. James’s Gate.'],
+            ['Was ist es?', 'Ein Stout: dunkles, obergäriges Bier aus gerösteter Gerste. Es schmeckt nach Kaffee und Kakao und ist trotzdem nicht schwer. Es hat nur etwa 4 % Alkohol.'],
+            ['Der Schaum', 'In der Dose sorgt eine Kapsel mit Stickstoff für den cremigen Schaum. Langsam einschenken und kurz setzen lassen.'],
+            ['Passt zu', 'Entrecôte und Tri-Tip. Die Röstaromen greifen die Kruste auf.']
+          ]
+        },
+        {
+          id: 'urpils', title: 'Karlsberg UrPils (0,33 l)', teaser: 'Das Saarland im Glas',
+          facts: [
+            ['Woher?', 'Von der Karlsberg Brauerei in Homburg im Saarland, gegründet 1878. Also quasi ein Heimspiel.'],
+            ['Was ist es?', 'Ein mildes Pils, süffig und nicht zu bitter.'],
+            ['Passt zu', 'Grillwurst, auch zum Nudelsalat und zwischendurch als Durstlöscher.']
+          ]
+        },
+        {
+          id: 'rothaus', title: 'Rothaus Tannenzäpfle (0,33 l)', teaser: 'Das Pils aus dem Schwarzwald',
+          facts: [
+            ['Woher?', 'Von der Badischen Staatsbrauerei Rothaus bei Grafenhausen im Hochschwarzwald. Sie gehört dem Land Baden-Württemberg und liegt auf rund 1.000 Metern Höhe. Die Brauerei ist damit eine der höchstgelegenen Deutschlands.'],
+            ['Was ist es?', 'Ein klassisches Pils mit 5,1 % vol. Es ist herb und frisch. Die kleine Flasche heißt „Tannenzäpfle“ nach dem Tannenzapfen.'],
+            ['Passt zu', 'Grillwurst und Flat Iron.']
+          ]
+        },
+        {
+          id: 'bitburger', title: 'Bitburger 0,0 % Herb', teaser: 'Alkoholfrei, aber mit Bitterkeit',
+          facts: [
+            ['Woher?', 'Von der Bitburger Brauerei in der Eifel in Rheinland-Pfalz.'],
+            ['Was ist es?', 'Ein alkoholfreies Pils mit 0,0 % Alkohol. „Herb“ heißt, dass es kräftiger nach Hopfen schmeckt als viele andere alkoholfreie Biere.'],
+            ['Passt zu', 'Grillwurst und Flat Iron, wie ein normales Pils.']
+          ]
+        },
+        {
+          id: 'weizen', title: 'Franziskaner und Paulaner Weißbier alkoholfrei (hell)', teaser: 'Zwei Münchner Weizen ohne Alkohol',
+          facts: [
+            ['Woher?', 'Beide kommen aus München. Franziskaner gehört zur Spaten-Franziskaner-Bräu, Paulaner ist die Brauerei vom Nockherberg.'],
+            ['Was ist es?', 'Helles Weizenbier: fruchtig, etwas Banane und Nelke, mit cremigem Schaum und wenig Bitterkeit. Beide sind alkoholfrei.'],
+            ['Passt zu', 'Grillwurst und Sweetheart. Weizen mag Würziges und Mildes.']
+          ]
+        }
+      ],
+      note: 'Die Ratz-Flaschen haben 0,75 l: gern teilen.'
+    },
+    {
+      title: 'Ohne Alkohol',
+      items: [
+        {
+          id: 'soft', title: 'Sprudel, Wasser, Cola, Orange, Mix', teaser: 'Für alle, die fahren oder einfach Durst haben',
+          facts: [
+            ['Was gibt es?', 'Sprudel, stilles Wasser, Cola und Orangenlimonade. „Mix“ ist beides zusammen, also Cola-Orange.'],
+            ['Tipp', 'Zwischen den Gängen ein Glas Wasser, dann schmeckt das nächste Stück Fleisch wieder wie das erste.']
+          ]
+        }
+      ]
     },
     {
       title: 'Danach',
