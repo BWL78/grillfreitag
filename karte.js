@@ -6,10 +6,10 @@
       id: 'grillwurst', num: '1', title: 'Grillwurst',
       teaser: 'Zum Warmwerden. Der Nachwuchs darf zuerst – Erwachsene warten höflich.',
       facts: [
-        ['Was ist das?', 'Grillwürste gibt es grob in zwei Sorten: rohe Brat- und Grillwürste, die erst auf dem Rost gar werden, und Brühwürste, die schon gebrüht sind und nur noch heiß und knusprig werden müssen.'],
+        ['Was ist das?', 'Ein Sortiment aus hellen und orangefarbenen Würsten, 100 % Schweinefleisch. Es ist Frischware, also roh. Auf dem Grill werden sie erst gar und müssen vor dem Essen ausreichend durcherhitzt sein.'],
         ['Auf dem Grill', 'Bei mittlerer Hitze und mit Geduld. Zu viel Hitze sprengt die Haut, bevor die Wurst innen gar ist.']
       ],
-      origin: []
+      origin: ['Zutaten: 100 % Schweinefleisch', 'Verkauf durch SQM Moser GmbH, Weilerbach (ZEMO)']
     },
     {
       id: 'tritip', num: '2', title: 'Tri Tip', cut: 'tritip',
@@ -21,7 +21,7 @@
         ['Auf dem Grill', 'Mit Öl und Salz einreiben, kurz bei hoher Hitze scharf anbraten, dann ruhen lassen. Zielwert: 54 °C (medium rare) bis 56 °C (medium) Kerntemperatur.'],
         ['Zum Schneiden', 'Immer quer zur Faser in dünne Scheiben. Das macht es butterweich.']
       ],
-      origin: []
+      origin: ['Geburt, Mast, Schlachtung, Zerlegung: Deutschland', 'Geschlachtet: DE TH 01829 (TH = Thüringen)', 'Zerlegt: DE RP 13020 EG (RP = Rheinland-Pfalz)', 'Identifikationsnummer: 26372-3-01829']
     },
     {
       id: 'flatiron', num: '3', title: 'Flat Iron', cut: 'flatiron',
@@ -33,7 +33,7 @@
         ['Geschmack', 'Intensiv und leicht nussig, ähnlich wie Rib-Eye, aber deutlich günstiger. Dünn, stark marmoriert und dadurch saftig.'],
         ['Auf dem Grill', 'Nur wenige Minuten bei starker, direkter Hitze. Nicht durchbraten, sonst wird es trocken.']
       ],
-      origin: []
+      origin: ['Geburt, Mast, Schlachtung, Zerlegung: Deutschland', 'Geschlachtet: DE TH 01829 (TH = Thüringen)', 'Zerlegt: DE RP 13020 EG (RP = Rheinland-Pfalz)']
     },
     {
       id: 'finale', num: '4', title: 'Das Finale: Entrecôte vs. Sweetheart', heart: true,
@@ -47,16 +47,17 @@
             ['Gut zu wissen', 'Entrecôte wird oft mit Ribeye gleichgesetzt. Manche Metzger unterscheiden beides, deshalb lohnt sich beim Einkauf die Frage.'],
             ['Auf dem Grill', 'Scharf angrillen, dann bei indirekter Hitze ziehen lassen. Zielwert: etwa 54 °C Kerntemperatur.']
           ],
-          origin: []
+          origin: ['Geburt, Mast, Schlachtung, Zerlegung: Deutschland', 'Geschlachtet: DE NI 10002 (NI = Niedersachsen)', 'Zerlegt: DE RP 13020 EG (RP = Rheinland-Pfalz)', 'Identifikationsnummer: 26402-3-10002']
         },
         {
           id: 'sweetheart', title: 'Sweetheart', cut: 'entrecote',
           facts: [
             ['Was ist das?', 'Das gleiche Fleisch wie das Entrecôte, nur anders geschnitten: im Schmetterlingsschnitt, flach und mit Herzform.'],
             ['Der Unterschied', 'Flacher heißt: mehr Kruste im Verhältnis zum Fleisch, schneller gar und schön für den Teller. Das dicke Entrecôte bleibt dafür innen saftiger. Genau das testen wir heute.'],
+            ['Auf der Packung', 'Als Artikel steht dort „Entrecôte steak“. Das Sweetheart ist also wirklich ein Entrecôte, nur anders geschnitten.'],
             ['Auf dem Grill', 'Weil es dünner ist, braucht es deutlich weniger Zeit als das dicke Stück. Gut im Auge behalten.']
           ],
-          origin: []
+          origin: ['Geburt, Mast, Schlachtung, Zerlegung: Deutschland', 'Geschlachtet: DE NI 10002 (NI = Niedersachsen)', 'Zerlegt: DE RP 13020 EG (RP = Rheinland-Pfalz)', 'Identifikationsnummer: 26402-3-10002, dieselbe wie beim Entrecôte, also dieselbe Partie']
         }
       ]
     }
