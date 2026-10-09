@@ -406,6 +406,24 @@
     if (g.note) glas.appendChild(el('p', 'hand ink', g.note));
   });
 
+  /* Zum Würzen */
+  var SEASON = [
+    {
+      id: 'fleur', title: 'Fleur de Sel, Le Saunier de Camargue', teaser: 'Das feine Salz zum Schluss, direkt aufs Fleisch',
+      facts: [
+        ['Woher?', 'Aus der Camargue, dem Mündungsgebiet der Rhône in Südfrankreich am Mittelmeer. Dort liegen flache Salzgärten, in denen Meerwasser in der Sonne verdunstet.'],
+        ['Was ist Fleur de Sel?', 'Das heißt „Salzblume“. Gemeint ist die hauchdünne Schicht aus zarten Kristallen, die sich bei Sonne und Wind oben auf dem Wasser bildet. Sie wird von Hand abgeschöpft und ist deshalb teurer als normales Salz.'],
+        ['Auf dem Etikett', 'Der „Saunier“ ist der Salzbauer. Oben auf dem Töpfchen steht das Kreuz der Camargue mit Anker und Herz. Es steht für Glaube, Hoffnung und Nächstenliebe.'],
+        ['Wie nimmt man es?', 'Erst ganz zum Schluss auf das aufgeschnittene Fleisch streuen, nicht davor. Dann bleiben die Kristalle knusprig und schmecken mild und rein.']
+      ]
+    }
+  ];
+  var wuerz = document.getElementById('wuerz');
+  if (wuerz) {
+    wuerz.appendChild(el('p', 'hand big', 'Zum Würzen'));
+    SEASON.forEach(function (d) { wuerz.appendChild(toggleItem('drinkitem', d, null)); });
+  }
+
   /* Alle auf-/zuklappen */
   var allBtn = document.getElementById('toggleall');
   if (allBtn) {
