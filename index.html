@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="karte.css">
 </head>
 <body>
 <main class="page">
@@ -41,6 +42,7 @@
 <h1>Steak-Tasting</h1>
 <p class="sub">Einmal quer durchs Rind – nur heute Abend!</p>
 <p class="small">Alle Gänge solange der Vorrat (und der Grillmeister) hält.</p>
+<p class="small"><b>Tipp:</b> Tippe auf ein Gericht oder Getränk, dann erfährst du mehr darüber.</p>
 </header>
 
 <div class="cta"><a class="btn" href="bewertung.html">Zum Bewertungsbogen</a></div>
@@ -57,10 +59,7 @@
 Vom Grill</h2>
 <p class="hand">Streng nach Zartheit sortiert – bitte nicht vordrängeln!</p>
 
-<div class="item"><div class="num">1</div><div><b>Grillwurst</b><span>Zum Warmwerden. Der Nachwuchs darf zuerst – Erwachsene warten höflich.</span></div></div>
-<div class="item"><div class="num">2</div><div><b>Tri Tip</b><span>Der Underdog: würzig und kräftig, schön quer zur Faser tranchiert.</span></div></div>
-<div class="item"><div class="num">3</div><div><b>Flat Iron</b><span>Brutal zart, kurz auf der Platte. Schmilzt schneller als gute Vorsätze.</span></div></div>
-<div class="item"><div class="num">4</div><div><b>Das Finale: Entrecôte vs. Sweetheart<svg class="heart-inline" width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Herz"><path d="M50 90 C8 60 4 30 26 20 C40 15 48 22 50 32 C52 22 60 15 74 20 C96 30 92 60 50 90 Z" fill="#c0392b" stroke="#2b1d17" stroke-width="6"/></svg></b><span>Gleiches Fleisch, zwei Schnitte: einmal dick und saftig, einmal flach mit Herz. Ihr stimmt ab!</span></div></div>
+<div id="dishes"></div>
 
 <div class="side">
 <b>Dazu reicht der Koch</b>
@@ -74,26 +73,46 @@ Vom Grill</h2>
 <svg width="34" height="40" viewBox="0 0 34 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Glas"><path d="M4 4 H30 L22 22 V32 H28 V36 H6 V32 H12 V22 Z" fill="#f6e3bd" stroke="#2b1d17" stroke-width="2.5" stroke-linejoin="round"/><path d="M8 8 H26 L21 19 H13 Z" fill="#b8321f"/></svg>
 Im Glas</h2>
 
-<p class="hand big">Zum Empfang</p>
-<div class="drink"><b>Aperol Spritz</b><span>Mit Crémant statt Prosecco, Orangenscheibe inklusive</span></div>
-<div class="drink"><b>Kir Royal</b><span>Crémant mit Cassis, für die Feinen am Tisch</span></div>
-
-<p class="hand big">Zum Fleisch</p>
-<div class="drink"><b>Bier</b><span>Eiskalt. Der Klassiker zum Grillen.</span></div>
-<div class="drink"><b>Cahors, Clos de Pougette</b><span>Kräftiger Rotwein, der Partner fürs Finale</span></div>
-<div class="drink"><b>Grauburgunder feinherb, Nahe 2023</b><span>Zum Start, passt zu Wurst und Nudelsalat</span></div>
-<div class="drink"><b>Viognier, Domaine Costes Rouges</b><span>Fruchtig und voll, der Begleiter zum Flat Iron</span></div>
-<p class="hand ink">Je nur 1 Flasche: Probieren ja, Leertrinken nein!</p>
-
-<p class="hand big">Danach</p>
-<div class="drink"><b>Gin Tonic</b><span>Roku Gin mit Schweppes, Gurke oder Zitrone</span></div>
-<div class="drink"><b>Quittenbrand und Mirabellenbrand</b><span>Klein, aber oho. Zum Verdauen des Finales</span></div>
+<div id="glas"></div>
 </section>
 
 </div>
 
+<details class="herk">
+<summary>Woher kommt das Fleisch? So liest du das Etikett</summary>
+<p>In der EU muss auf jeder Packung Rindfleisch stehen, woher es kommt. Das ist die Spur vom Tier bis in die Kühltheke:</p>
+<ul>
+<li><b>Geboren in:</b> das Land, in dem das Kalb zur Welt kam.</li>
+<li><b>Gemästet in:</b> das Land, in dem es aufgezogen wurde.</li>
+<li><b>Geschlachtet in:</b> das Land der Schlachtung, dazu die Zulassungsnummer des Schlachthofs.</li>
+<li><b>Zerlegt in:</b> das Land, in dem das Fleisch in Stücke geschnitten wurde, mit Zulassungsnummer des Zerlegebetriebs.</li>
+<li><b>Referenznummer:</b> sie verbindet das Fleisch mit dem Tier, zum Beispiel über die Ohrmarke oder eine Charge.</li>
+</ul>
+<p>Passiert alles im selben Land, steht dort nur „Herkunft“ und das Land. Bei jungen Tieren steht zusätzlich Kalbfleisch (bis 8 Monate) oder Jungrindfleisch (8 bis 12 Monate).</p>
+<p>Wo die Packungen von heute Abend herkommen, steht bei den einzelnen Steaks, sobald sie eingekauft sind.</p>
+</details>
+
+<div class="tools"><button type="button" class="btn alt" id="toggleall">Alle aufklappen</button></div>
+
 <div class="cta"><a class="btn" href="bewertung.html">Zum Bewertungsbogen</a></div>
 <p class="foot">Beschwerden nimmt der Grillmeister gern entgegen, am besten mit einem Bier in der Hand.</p>
+
+<details class="quellen">
+<summary>Quellen</summary>
+<ul>
+<li><a href="https://www.weber.com/DE/de/grillgeschichten/grill-know-how/wahlaufruf-für-das-bürgermeisterstück/weber-157671.html">Weber: Bürgermeisterstück</a></li>
+<li><a href="https://www.weber.com/DE/de/grillgeschichten/grill-know-how/flat-iron-steak-herzhaft-nussiger-grillgenuss/weber-155459.html">Weber: Flat-Iron-Steak</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Flat_iron_steak">Wikipedia: Flat iron steak</a></li>
+<li><a href="https://www.kuechenfibel.de/faq/was-ist-rinder-entrecote">Küchenfibel: Rinder-Entrecôte</a></li>
+<li><a href="https://www.landkreis-aurich.de/fileadmin/dateiablage/buergerservice/Merkblatt_Rindfleischetikettierung.pdf">Landkreis Aurich: Rindfleischetikettierung</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cahors_wine">Wikipedia: Cahors wine</a></li>
+<li><a href="https://www.bmluk.gv.at/themen/lebensmittel/trad-lebensmittel/getraenke/grauburgunder.html">BMLUK: Grauburgunder</a></li>
+<li><a href="https://www.decanter.com/features/viognier-246278/">Decanter: Viognier</a></li>
+<li><a href="https://www.falstaff.com/en/news/the-mayors-legacy-the-kir-royal">Falstaff: Kir Royal</a></li>
+<li><a href="https://www.about-drinks.com/roku-gin-der-authentisch-japanische-premium-craft-gin/">About Drinks: Roku Gin</a></li>
+<li><a href="https://lebensmittelpraxis.de/warenkunden/16713-warenverkaufskunde-obstbraende.html?showall=1">Lebensmittelpraxis: Obstbrände</a></li>
+</ul>
+</details>
 
 <svg class="flames" viewBox="0 0 794 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flammen">
 <defs>
@@ -107,5 +126,6 @@ Im Glas</h2>
 
 </div></div>
 </main>
+<script src="karte.js"></script>
 </body>
 </html>
