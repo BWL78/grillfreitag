@@ -74,7 +74,7 @@
           id: 'aperol', title: 'Aperol Spritz', teaser: 'Mit Crémant statt Prosecco, Orangenscheibe inklusive',
           facts: [
             ['Was ist drin?', 'Aperol, ein orangeroter Bitterlikör aus Italien, dazu Schaumwein und ein Schuss Soda. Hier wird der Schaumwein ein Crémant.'],
-            ['Was ist Crémant?', 'Ein französischer Schaumwein, der wie Champagner in der Flasche vergärt, aber nicht aus der Champagne kommt. Er ist meist trockener und feiner als Prosecco.']
+            ['Was ist Crémant?', 'Hier der Crémant d’Alsace von Wolfberger: ein Schaumwein aus dem Elsass, der wie Champagner in der Flasche vergärt. Er ist meist trockener und feiner als Prosecco. Mehr dazu beim eigenen Eintrag unten.']
           ]
         },
         {
@@ -83,6 +83,15 @@
             ['Rezept', 'Etwa 8 cl eiskalter Schaumwein und 2 cl Crème de Cassis, einem Likör aus schwarzen Johannisbeeren. Erst den Schaumwein ins Glas, dann langsam den Cassis.'],
             ['Woher der Name?', 'Vom Pfarrer und Politiker Félix Kir, der von 1945 bis 1968 Bürgermeister von Dijon war. Er servierte Gästen gern Weißwein mit Cassis, um die Produkte seiner Region bekannt zu machen. Crème de Cassis gibt es in der Gegend um Dijon seit 1841.'],
             ['Royal?', 'Der klassische Kir wird mit trockenem Weißwein gemacht. Für „Royal“ nimmt man stattdessen Schaumwein.']
+          ]
+        },
+        {
+          id: 'cremant', title: 'Crémant d’Alsace, Wolfberger Brut', teaser: 'Der Schaumwein im Spritz und im Kir Royal',
+          facts: [
+            ['Woher?', 'Aus dem Elsass, vom Winzerverband Wolfberger in Eguisheim, südlich von Colmar. Die Genossenschaft wurde 1902 gegründet, hat rund 450 Winzer als Mitglieder und bewirtschaftet etwa 1.200 Hektar.'],
+            ['Was ist Crémant d’Alsace?', 'Eine eigene Herkunftsbezeichnung (AOC) seit 1976. Er wird wie Champagner gemacht: Die zweite Gärung findet in der Flasche statt, die Trauben werden von Hand gelesen. Erlaubt sind Riesling, Pinot Blanc, Pinot Gris, Pinot Noir, Auxerrois und Chardonnay.'],
+            ['Diese Flasche', 'Laut Händlerangabe besteht der Brut aus 90 % Pinot Blanc und 10 % Auxerrois und lag mindestens 12 Monate auf der Hefe.'],
+            ['Im Glas', 'Blassgolden mit feiner, anhaltender Perlage. Duftet nach Blüten, Pfirsich und Aprikose, schmeckt frisch und fruchtig. Am besten gut gekühlt, bei etwa 5 bis 7 °C.']
           ]
         }
       ]
