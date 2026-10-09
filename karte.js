@@ -1,21 +1,8 @@
 (function () {
   /* Daten. Fotos liegen später unter fotos/<id>.jpg, fehlt eins, wird es einfach nicht gezeigt.
      "origin" (Herkunft laut Packung) wird nach dem Einkauf ergänzt, solange leer, bleibt die Zeile weg. */
-  /* Beispielbilder von Wikimedia Commons: [Dateiname, Urheber, Lizenz]. Eigene Fotos unter fotos/<id>.jpg haben Vorrang. */
-  var PHOTOS = {
-    tritip: ['Tri-tip-MCB.jpg', 'MCB (English Wikipedia)', 'CC BY-SA 2.5'],
-    flatiron: ['Flat Iron Steak with Fried Garlic.jpg', 'Ceeseven', 'CC BY-SA 4.0'],
-    entrecote: ['Perfect Entrecote (2454655127).jpg', 'FotoosVanRobin', 'CC BY-SA 2.0'],
-    grillwurst: ['Bratwürste auf dem Grill.JPG', '4028mdk09', 'CC BY-SA 3.0'],
-    aperol: ['Aperol Spritz - July 2024 - Sarah Stierch.jpg', 'Missvain', 'CC0'],
-    kir: ['Kir Royal.jpg', 'Martin Asche', 'CC BY-SA 3.0'],
-    bier: ['Beer wuerzburger hofbraue v.jpg', 'Christian Horvat', 'CC BY-SA 3.0'],
-    cahors: ['Chateau lagrezette cahors cru d\'exception 2003.jpg', 'mari', 'CC BY 2.0'],
-    grauburgunder: ['Pinot Gris VT 2001 in glass.jpg', 'Tomas er', 'CC BY-SA 3.0'],
-    viognier: ['Viognier.jpg', 'Anachronist', 'gemeinfrei'],
-    gin: ['Gin and Tonic with ingredients.jpg', 'NotFromUtrecht', 'CC BY-SA 3.0'],
-    brand: ['Mirabelle, sloe, and pear schnaps.jpg', 'Wikimedia-Commons-Nutzer', 'CC BY-SA 4.0']
-  };
+  /* Eigene Fotos liegen unter fotos/<id>.jpg (z. B. cahors.jpg). Fehlt eins, wird es nicht gezeigt. */
+  var PHOTOS = {};
 
   var DISHES = [
     {
