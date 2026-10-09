@@ -9,10 +9,12 @@
       id: 'grillwurst', num: '1', title: 'Grillwurst',
       teaser: 'Zum Warmwerden. Der Nachwuchs darf zuerst – Erwachsene warten höflich.',
       facts: [
-        ['Was ist das?', 'Ein Sortiment aus hellen und orangefarbenen Würsten, 100 % Schweinefleisch. Es ist Frischware, also roh. Auf dem Grill werden sie erst gar und müssen vor dem Essen ausreichend durcherhitzt sein.'],
+        ['Was ist das?', 'Ein Sortiment aus hellen und orangefarbenen Würsten, alle mit Schweinefleisch im Schweinedarm. Eine rohe Wurst wie die Roster muss auf dem Grill richtig durcherhitzt werden.'],
+        ['Käseknacker', 'Die orangefarbene Wurst mit Kräutern. Sie besteht aus 81 % Schweinefleisch und 15 % Käse, ist gepökelt und geräuchert und hat etwa 205 kcal pro 100 g.'],
+        ['Roster', 'Die helle Bratwurst. Sie besteht aus 85 % Schweinefleisch und etwas Speck und ist mit etwa 300 kcal pro 100 g deutlich fettreicher. Laut Packung kann sie Spuren von Ei, Milch und Senf enthalten.'],
         ['Auf dem Grill', 'Bei mittlerer Hitze und mit Geduld. Zu viel Hitze sprengt die Haut, bevor die Wurst innen gar ist.']
       ],
-      origin: ['Zutaten: 100 % Schweinefleisch', 'Verkauf durch SQM Moser GmbH, Weilerbach (ZEMO)']
+      origin: ['Käseknacker: hergestellt von Werz, Hardtstraße 98–100, 69124 Heidelberg. Zulassungsnummer DE BW 03107 EG (Baden-Württemberg)', 'Roster: hergestellt von Munzert GmbH, Rudolf-Strunz-Straße 2, 95111 Rehau. Zulassungsnummer DE BY 40394 EG (Bayern)', 'Verkauf durch SQM Moser GmbH, Weilerbach (ZEMO)']
     },
     {
       id: 'tritip', num: '2', title: 'Tri Tip', cut: 'tritip',
