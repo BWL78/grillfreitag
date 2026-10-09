@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#b8321f">
+<title>Auswertung Steak-Tasting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="extra.css">
+</head>
+<body>
+<main class="page">
+<div class="frame"><div class="frame-in">
+
+<header class="head">
+<h1 style="font-size: clamp(1.9rem, 9vw, 3.4rem); overflow-wrap: anywhere">Auswertung</h1>
+<p class="sub">Alle Codes rein, das Urteil kommt raus!</p>
+</header>
+
+<div class="eval-in codes">
+<label for="codes">Ergebnis-Codes der Gäste</label>
+<p class="note">Füge die Codes ein, einen pro Zeile. Ganze Nachrichten gehen auch, die Seite findet die Codes darin. Gleiche Codes zählen nur einmal.</p>
+<textarea id="codes" rows="6" spellcheck="false" placeholder="GF1.…"></textarea>
+<div class="row-btns">
+<button type="button" class="btn alt" id="sample">Beispieldaten laden</button>
+<button type="button" class="btn alt" id="clear">Leeren</button>
+</div>
+</div>
+
+<p class="status" id="status" role="status"></p>
+
+<div class="empty" id="empty">Noch keine Codes. Füge oben welche ein, oder lade die Beispieldaten, um zu sehen, wie die Auswertung aussieht.</div>
+
+<div class="results" id="results" hidden>
+<div class="banner" id="banner" hidden>
+<span class="k">Sieger nach Herzen</span>
+<span class="v" id="winner"></span>
+</div>
+
+<div class="blk">
+<h2>Die Schnitte im Vergleich</h2>
+<div class="scroll"><table class="rank" id="rank"></table></div>
+<p class="note">Durchschnitt aus den vergebenen Zahlen von 1 bis 5. Felder, die ein Gast offen gelassen hat, zählen nicht mit. Der beste Wert pro Spalte ist hervorgehoben.</p>
+</div>
+
+<div class="blk">
+<h2>Favorit des Abends</h2>
+<div class="blk" id="favbars"></div>
+</div>
+
+<div class="blk">
+<h2>Das Duell: dick oder mit Herz?</h2>
+<div class="blk" id="duellbars"></div>
+</div>
+
+<div class="blk">
+<h2>Bestes Getränk zum Fleisch</h2>
+<ul class="list" id="drinks"></ul>
+</div>
+
+<p class="note" id="guests"></p>
+</div>
+
+<div class="actions">
+<a class="btn alt" href="index.html">Zur Speisekarte</a>
+</div>
+
+</div></div>
+</main>
+
+<script>
+(function () {
+  var CUTS = [
+    { id: 'tritip', name: 'Tri Tip' },
+    { id: 'flatiron', name: 'Flat Iron' },
+    { id: 'entrecote', name: 'Entrecôte' },
+    { id: 'sweetheart', name: 'Sweetheart' }
+  ];
+  var HEAD = ['Schnitt', 'Zart', 'Saftig', 'Würze', 'Kruste', 'Herzen'];
+  var FAVNAMES = ['', 'Tri Tip', 'Flat Iron', 'Entrecôte', 'Sweetheart'];
+  var DUELLNAMES = ['', 'Entrecôte', 'Sweetheart', 'Unentschieden'];
+  var STORE = 'grillfreitag-auswertung-v1';
+
+  var ta = document.getElementById('codes');
+  var statusEl = document.getElementById('status');
+  var emptyEl = document.getElementById('empty');
+  var resultsEl = document.getElementById('results');
+
+  function b64(s) {
+    var bytes = new TextEncoder().encode(s);
+    var bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unb64(s) {
+    s = s.replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+  function fmt(x) { return x == null ? '–' : (Math.round(x * 10) / 10).toFixed(1).replace('.', ','); }
+
+  /* Beispieldaten, nur zum Ausprobieren */
+  function enc(name, digits, drink) {
+    return 'GF1.' + digits + '.' + b64(name) + '.' + b64(drink);
+  }
+  var SAMPLE = [
+    enc('Anna', '34544' + '54345' + '45455' + '44444' + '3' + '1', 'Cahors'),
+    enc('Ben', '23433' + '54334' + '35444' + '44345' + '4' + '2', 'Bier'),
+    enc('Chris', '33544' + '43353' + '34555' + '55345' + '3' + '3', 'cahors')
+  ].join('\n');
+
+  function analyze(text) {
+    var re = /GF1\.(\d{22})\.([A-Za-z0-9_-]*)\.([A-Za-z0-9_-]*)/g;
+    var seen = {}, guests = [], dupes = 0, invalid = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (seen[m[0]]) { dupes++; continue; }
+      seen[m[0]] = true;
+      var d = m[1], ok = true, i;
+      for (i = 0; i < 20; i++) { if (+d.charAt(i) > 5) ok = false; }
+      if (+d.charAt(20) > 4 || +d.charAt(21) > 3) ok = false;
+      var name = '', drink = '';
+      try { name = unb64(m[2]); drink = unb64(m[3]); } catch (e) { ok = false; }
+      if (!ok) { invalid++; continue; }
+      guests.push({ d: d, name: name, drink: drink });
+    }
+    var unrecognized = 0;
+    text.split(/\r?\n/).forEach(function (line) {
+      if (line.trim() && !/GF1\.\d{22}\./.test(line)) unrecognized++;
+    });
+    return { guests: guests, dupes: dupes, invalid: invalid, unrecognized: unrecognized };
+  }
+
+  function stats(guests) {
+    var cuts = CUTS.map(function () { return { sum: [0, 0, 0, 0, 0], n: [0, 0, 0, 0, 0] }; });
+    var fav = [0, 0, 0, 0, 0], duell = [0, 0, 0, 0], drinks = {}, names = [], anon = 0;
+    guests.forEach(function (g) {
+      for (var ci = 0; ci < 4; ci++) {
+        for (var ki = 0; ki < 5; ki++) {
+          var v = +g.d.charAt(ci * 5 + ki);
+          if (v > 0) { cuts[ci].sum[ki] += v; cuts[ci].n[ki]++; }
+        }
+      }
+      fav[+g.d.charAt(20)]++;
+      duell[+g.d.charAt(21)]++;
+      var dn = g.drink.trim();
+      if (dn) {
+        var key = dn.toLowerCase().replace(/\s+/g, ' ');
+        if (!drinks[key]) drinks[key] = { label: dn.replace(/\s+/g, ' '), count: 0 };
+        drinks[key].count++;
+      }
+      var nm = g.name.trim();
+      if (nm) names.push(nm); else anon++;
+    });
+    var avg = cuts.map(function (c) {
+      return c.sum.map(function (s, i) { return c.n[i] ? s / c.n[i] : null; });
+    });
+    return { avg: avg, fav: fav, duell: duell, drinks: drinks, names: names, anon: anon };
+  }
+
+  function bars(container, labels, counts) {
+    clear(container);
+    var total = 0, max = 0, i;
+    for (i = 1; i < counts.length; i++) { total += counts[i]; if (counts[i] > max) max = counts[i]; }
+    if (!total) { container.appendChild(el('p', 'note', 'Noch keine Stimmen.')); return; }
+    for (i = 1; i < counts.length; i++) {
+      var row = el('div', 'bar');
+      row.appendChild(el('span', null, labels[i]));
+      var track = el('span', 'track');
+      var fill = el('span', 'fill');
+      fill.style.width = (counts[i] / max * 100) + '%';
+      track.appendChild(fill);
+      row.appendChild(track);
+      row.appendChild(el('span', 'cnt', String(counts[i])));
+      container.appendChild(row);
+    }
+  }
+
+  function render() {
+    var text = ta.value;
+    try { localStorage.setItem(STORE, text); } catch (e) {}
+    var a = analyze(text);
+    var n = a.guests.length;
+
+    var parts = [];
+    if (n) parts.push(n + (n === 1 ? ' Bogen' : ' Bögen') + ' ausgewertet' + (text === SAMPLE ? ' (Beispieldaten)' : ''));
+    if (a.dupes) parts.push(a.dupes + (a.dupes === 1 ? ' doppelter Code' : ' doppelte Codes') + ' ignoriert');
+    if (a.invalid) parts.push(a.invalid + (a.invalid === 1 ? ' Code ist ungültig' : ' Codes sind ungültig'));
+    if (a.unrecognized) parts.push(a.unrecognized + (a.unrecognized === 1 ? ' Zeile ohne Code' : ' Zeilen ohne Code') + ' übersprungen');
+    statusEl.textContent = parts.join(' · ');
+
+    emptyEl.hidden = n > 0;
+    resultsEl.hidden = n === 0;
+    if (!n) return;
+
+    var s = stats(a.guests);
+
+    /* Sieger nach Herzen */
+    var best = null;
+    s.avg.forEach(function (row) { if (row[4] != null && (best == null || row[4] > best)) best = row[4]; });
+    var banner = document.getElementById('banner');
+    if (best == null) {
+      banner.hidden = true;
+    } else {
+      var winners = [];
+      CUTS.forEach(function (c, i) { if (s.avg[i][4] === best) winners.push(c.name); });
+      document.getElementById('winner').textContent = winners.join(' und ') + ' (Ø ' + fmt(best) + ' von 5)';
+      banner.hidden = false;
+    }
+
+    /* Tabelle, sortiert nach Herzen */
+    var order = CUTS.map(function (c, i) { return i; }).sort(function (x, y) {
+      var ax = s.avg[x][4], ay = s.avg[y][4];
+      if (ax == null && ay == null) return x - y;
+      if (ax == null) return 1;
+      if (ay == null) return -1;
+      return ay - ax || x - y;
+    });
+    var maxCol = [0, 1, 2, 3, 4].map(function (k) {
+      var mx = null;
+      s.avg.forEach(function (row) { if (row[k] != null && (mx == null || row[k] > mx)) mx = row[k]; });
+      return mx;
+    });
+    var table = document.getElementById('rank');
+    clear(table);
+    var thead = el('thead'), hr = el('tr');
+    HEAD.forEach(function (h) { var th = el('th', null, h); th.scope = 'col'; hr.appendChild(th); });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tbody = el('tbody');
+    order.forEach(function (i) {
+      var tr = el('tr');
+      var th = el('th', null, CUTS[i].name); th.scope = 'row';
+      th.style.textAlign = 'left';
+      tr.appendChild(th);
+      for (var k = 0; k < 5; k++) {
+        var v = s.avg[i][k];
+        var td = el('td', v != null && v === maxCol[k] ? 'best' : null, fmt(v));
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    bars(document.getElementById('favbars'), FAVNAMES, s.fav);
+    bars(document.getElementById('duellbars'), DUELLNAMES, s.duell);
+
+    var dl = document.getElementById('drinks');
+    clear(dl);
+    var list = Object.keys(s.drinks).map(function (k) { return s.drinks[k]; });
+    list.sort(function (x, y) { return y.count - x.count || x.label.localeCompare(y.label, 'de'); });
+    if (!list.length) {
+      dl.appendChild(el('li', null, 'Noch keine Nennungen.'));
+    } else {
+      list.forEach(function (d) { dl.appendChild(el('li', null, d.label + (d.count > 1 ? ' (' + d.count + 'x)' : ''))); });
+    }
+
+    var who = s.names.slice();
+    var g = 'Bewertet haben: ' + (who.length ? who.join(', ') : 'niemand mit Namen');
+    if (s.anon) g += (who.length ? ' und ' : ' – ') + s.anon + (s.anon === 1 ? ' Gast ohne Namen' : ' Gäste ohne Namen');
+    document.getElementById('guests').textContent = g + '.';
+  }
+
+  ta.addEventListener('input', render);
+  document.getElementById('sample').addEventListener('click', function () { ta.value = SAMPLE; render(); });
+  document.getElementById('clear').addEventListener('click', function () { ta.value = ''; render(); });
+
+  try { ta.value = localStorage.getItem(STORE) || ''; } catch (e) {}
+  render();
+})();
+</script>
+</body>
+</html>
