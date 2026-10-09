@@ -40,3 +40,7 @@ button.tap .num { width: 30px; height: 30px; }
 .quellen summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
 .quellen ul { margin: 4px 0 0; padding-left: 1.1rem; display: grid; gap: 4px; }
 .quellen a { overflow-wrap: anywhere; }
+
+.foto figcaption { font-size: 0.72rem; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+.foto figcaption a { color: inherit; }
+.foto figcaption[hidden] { display: none; }
