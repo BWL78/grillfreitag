@@ -105,6 +105,7 @@
             ['Woher?', 'Aus der Gegend um die Stadt Cahors im Département Lot, Südwestfrankreich. Die Weinberge liegen vor allem westlich der Stadt auf Kiesterrassen in den Schleifen des Flusses Lot.'],
             ['Welche Rebsorte?', 'Mindestens 70 % Malbec, der dort „Côt“ oder „Auxerrois“ heißt. Dazu dürfen bis zu 30 % Merlot und Tannat kommen.'],
             ['Geschichte', 'Hier wird seit der Römerzeit Wein gemacht, etwa seit 50 v. Chr. Im 13. Jahrhundert verschifften Händler den „schwarzen Wein“ über Bordeaux nach England, später gelangte er bis nach Russland. Die Reblaus zerstörte die Weinberge ab 1883, ein Frost im Februar 1956 machte eine große Neupflanzung nötig. Seit 1971 trägt er die Herkunftsbezeichnung AOC.'],
+            ['Diese Box', '„Tradition“ vom Clos de Pougette, Appellation Cahors Contrôlée, 12,5 % vol. Abgefüllt auf dem Weingut (EARL Clos de Pougette, Winzer Pierre Benac) in Saint-Vincent-Rive-d’Olt im Département Lot.'],
             ['Heute Abend', 'Der Cahors kommt aus der 5-Liter-Box und wird vor dem Servieren in eine Karaffe gefüllt, damit er Luft bekommt.'],
             ['Im Glas', 'Tiefdunkel, kräftig und mit festen Tanninen. Das ist ein guter Partner für Fleisch mit Kruste.']
           ]
@@ -113,6 +114,7 @@
           id: 'grauburgunder', title: 'Grauburgunder feinherb, Nahe 2023', teaser: 'Zum Start, passt zu Wurst und Nudelsalat',
           facts: [
             ['Woher?', 'Von der Nahe, einem Weinbaugebiet in Rheinland-Pfalz an einem Nebenfluss des Rheins. Die Nahe entspringt übrigens im Saarland.'],
+            ['Diese Flasche', 'Auf dem Etikett steht „Michel Wein“, Ludweiler Edition: Grauburgunder, feinherb, Jahrgang 2023, Nahe. Das Motiv zeigt einen Laternenanzünder mit seiner langen Stange.'],
             ['Die Rebsorte', 'Der Grauburgunder stammt vermutlich aus Burgund und ist eine Mutation des Spätburgunders. Die Beeren haben eine graue Haut, daher der Name. Der Name „Ruländer“ geht auf den Kaufmann Johann Seger Ruland zurück, der die Sorte 1709 in Speyer entdeckte.'],
             ['Im Glas', 'Meist säurearm, körperreich und fruchtig, mit Noten von Honigmelone, Birne oder getrockneten Früchten. „Feinherb“ heißt: ein wenig Restzucker, aber nicht süß.'],
             ['Trinktemperatur', 'Etwa 8 bis 14 °C. Dazu passen helles Fleisch, Wurst und Salate.']
@@ -121,6 +123,7 @@
         {
           id: 'viognier', title: 'Viognier, Domaine Costes Rouges', teaser: 'Fruchtig und voll, der Begleiter zum Flat Iron',
           facts: [
+            ['Diese Flasche', 'Vom Weingut Domaine Costes Rouges, mit der Herkunftsangabe „Indication Géographique Protégée Pays d’Oc“ und der Rebsorte Viognier.'],
             ['Die Rebsorte', 'Der Viognier stammt aus dem nördlichen Rhônetal. Er war nach der Reblauskrise fast verschwunden: In den späten 1960ern standen dort nur noch rund 12 Hektar. Winzer wie Georges Vernay brachten ihn zurück, heute wird er auf der ganzen Welt angebaut.'],
             ['Im Glas', 'Sehr aromatisch: Aprikose, Pfirsich, Honig und Geißblatt. Er hat wenig Säure und wirkt dadurch weich und rund.'],
             ['Pays d’Oc', 'Pays d’Oc ist eine Herkunftsangabe für Weine aus dem Süden Frankreichs (Languedoc-Roussillon). Der Viognier wächst dort längst nicht mehr nur an der Rhône.'],
