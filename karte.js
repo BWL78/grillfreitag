@@ -121,10 +121,10 @@
           ]
         },
         {
-          id: 'heyraud', title: 'Pinot noir/Syrah, Domaine Heyraud 2023', teaser: 'Leichter Roter aus der Auvergne, passt zu Sweetheart und Flat Iron',
+          id: 'heyraud', title: 'Reflets, Domaine Heyraud 2023', teaser: 'Leichter Roter aus der Auvergne, passt zu Sweetheart und Flat Iron',
           facts: [
             ['Woher?', 'Aus dem Département Puy de Dôme in der Auvergne, Mittelfrankreich. Abgefüllt hat ihn das Weingut EARL Heyraud in Cormède (Postleitzahl 63430), die Besitzer Philippe und François sind laut Etikett auch die Winzer.'],
-            ['Diese Flasche', 'Auf dem Etikett steht „IGP Puy de Dôme“, Jahrgang 2023, 12,5 % vol. Der Wein ist ein Verschnitt aus Pinot noir und Syrah, laut Etikett aus den schönsten Cuvées des Weinguts. Ein Medaillen-Siegel klebt auch darauf.'],
+            ['Diese Flasche', 'Die Cuvée heißt „Reflets“, das bedeutet „Spiegelungen“. Auf dem Etikett steht „IGP Puy de Dôme“, Jahrgang 2023, 12,5 % vol. Der Wein ist ein Verschnitt aus Pinot noir und Syrah, laut Etikett aus den schönsten Cuvées des Weinguts. Ein Medaillen-Siegel klebt auch darauf.'],
             ['Im Glas', 'Laut Etikett fruchtig und gefällig durch den Pinot noir, dazu voll und mit Struktur durch den Syrah. Er ist leichter als der Cahors.'],
             ['Trinktemperatur', 'Leicht gekühlt, etwa 14 bis 16 °C.'],
             ['Passt zu', 'Sweetheart und Flat Iron, auch zum Entrecôte. Wenn der Cahors zu kräftig ist, ist das die sanftere Wahl.']
