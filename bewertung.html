@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#b8321f">
+<title>Bewertungsbogen Steak-Tasting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bitter:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="page">
+<div class="frame"><div class="frame-in">
+
+<header class="head">
+<h1 style="font-size: clamp(1.5rem, 6.6vw, 3rem); overflow-wrap: anywhere">Bewertungsbogen</h1>
+<p class="sub">Kreuz an, kritzel dazu, urteile gnadenlos!</p>
+</header>
+
+<div class="who">
+<label class="field" for="name">Name
+<input type="text" id="name" autocomplete="off" maxlength="40">
+</label>
+<p class="scale">1 = naja · 3 = lecker · 5 = Wahnsinn. Tippe eine Zahl nochmal an, um sie zu löschen.</p>
+<p class="privacy">Deine Angaben bleiben auf diesem Handy gespeichert. Niemand sonst sieht sie.</p>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<div class="picks">
+<fieldset class="pick">
+<legend>Mein Favorit des Abends</legend>
+<div class="opts" id="fav"></div>
+</fieldset>
+<fieldset class="pick">
+<legend>Das Duell: dick oder mit Herz?</legend>
+<div class="opts" id="duell"></div>
+</fieldset>
+</div>
+
+<label class="field drinkq" for="drink">Bestes Getränk zum Fleisch
+<input type="text" id="drink" autocomplete="off" maxlength="60">
+</label>
+
+<div class="actions">
+<a class="btn alt" href="index.html">Zurück zur Speisekarte</a>
+<button type="button" class="btn alt" id="reset">Bogen leeren</button>
+</div>
+<div class="confirm" id="confirm" hidden>
+<span>Wirklich alle Angaben auf diesem Handy löschen?</span>
+<div>
+<button type="button" class="btn" id="yes">Ja, leeren</button>
+<button type="button" class="btn alt" id="no">Abbrechen</button>
+</div>
+</div>
+
+</div></div>
+</main>
+
+<script>
+(function () {
+  var CUTS = [
+    { id: 'tritip', name: 'Tri Tip', hint: 'würzig und kräftig, quer zur Faser' },
+    { id: 'flatiron', name: 'Flat Iron', hint: 'zart, flach, von der Plancha' },
+    { id: 'entrecote', name: 'Entrecôte', hint: 'dick und saftig, mit Fettrand' },
+    { id: 'sweetheart', name: 'Sweetheart', hint: 'Entrecôte im Schmetterlingsschnitt' }
+  ];
+  var CRIT = [
+    ['zart', 'Zartheit'], ['saft', 'Saftigkeit'], ['wuerze', 'Würze'], ['kruste', 'Kruste']
+  ];
+  var FAV = [['tritip', 'Tri Tip'], ['flatiron', 'Flat Iron'], ['entrecote', 'Entrecôte'], ['sweetheart', 'Sweetheart']];
+  var DUELL = [['entrecote', 'Entrecôte'], ['sweetheart', 'Sweetheart'], ['unentschieden', 'Unentschieden']];
+  var KEY = 'grillfreitag-bewertung-v1';
+  var HEART = '<svg viewBox="0 0 100 94" aria-hidden="true"><path d="M50 88 C8 58 4 28 26 18 C40 13 48 20 50 30 C52 20 60 13 74 18 C96 28 92 58 50 88 Z"/></svg>';
+
+  var state = { name: '', fav: '', duell: '', drink: '', cuts: {} };
+  CUTS.forEach(function (c) { state.cuts[c.id] = { zart: 0, saft: 0, wuerze: 0, kruste: 0, gesamt: 0, notiz: '' }; });
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var s = JSON.parse(raw);
+      state.name = s.name || ''; state.fav = s.fav || ''; state.duell = s.duell || ''; state.drink = s.drink || '';
+      CUTS.forEach(function (c) {
+        var o = (s.cuts && s.cuts[c.id]) || {};
+        ['zart', 'saft', 'wuerze', 'kruste', 'gesamt'].forEach(function (k) { state.cuts[c.id][k] = +o[k] || 0; });
+        state.cuts[c.id].notiz = o.notiz || '';
+      });
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function build() {
+    var html = '';
+    CUTS.forEach(function (c) {
+      html += '<section class="cut" aria-labelledby="t-' + c.id + '"><h2 id="t-' + c.id + '">' + c.name + '</h2><p class="hint">' + c.hint + '</p>';
+      CRIT.forEach(function (k) {
+        html += '<div class="row" role="group" aria-label="' + k[1] + ' ' + c.name + '"><span class="lab">' + k[1] + '</span><div class="dots">';
+        for (var n = 1; n <= 5; n++) {
+          html += '<button type="button" class="dot" data-cut="' + c.id + '" data-k="' + k[0] + '" data-v="' + n + '" aria-pressed="false" aria-label="' + k[1] + ' ' + n + ' von 5">' + n + '</button>';
+        }
+        html += '</div></div>';
+      });
+      html += '<div class="row rowh" role="group" aria-label="Gesamt ' + c.name + '"><span class="lab">Gesamt</span><div class="hearts">';
+      for (var h = 1; h <= 5; h++) {
+        html += '<button type="button" class="hbtn" data-cut="' + c.id + '" data-k="gesamt" data-v="' + h + '" aria-pressed="false" aria-label="Gesamt ' + h + ' von 5 Herzen">' + HEART + '</button>';
+      }
+      html += '</div></div>';
+      html += '<label class="nlab" for="n-' + c.id + '">Notizen</label><textarea id="n-' + c.id + '" data-note="' + c.id + '" maxlength="200" rows="2"></textarea>';
+      html += '</section>';
+    });
+    document.getElementById('cards').innerHTML = html;
+
+    function radios(id, name, list) {
+      var out = '';
+      list.forEach(function (o) {
+        out += '<label class="opt"><input type="radio" name="' + name + '" value="' + o[0] + '" data-radio="' + name + '"><span>' + o[1] + '</span></label>';
+      });
+      document.getElementById(id).innerHTML = out;
+    }
+    radios('fav', 'fav', FAV);
+    radios('duell', 'duell', DUELL);
+  }
+
+  function paint() {
+    var nodes = document.querySelectorAll('[data-cut][data-k]');
+    for (var i = 0; i < nodes.length; i++) {
+      var b = nodes[i];
+      var cur = state.cuts[b.getAttribute('data-cut')][b.getAttribute('data-k')];
+      var v = +b.getAttribute('data-v');
+      var on = b.getAttribute('data-k') === 'gesamt' ? v <= cur : v === cur;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    var rs = document.querySelectorAll('[data-radio]');
+    for (var j = 0; j < rs.length; j++) {
+      rs[j].checked = state[rs[j].getAttribute('data-radio')] === rs[j].value;
+    }
+  }
+
+  function fillFields() {
+    document.getElementById('name').value = state.name;
+    document.getElementById('drink').value = state.drink;
+    CUTS.forEach(function (c) { document.getElementById('n-' + c.id).value = state.cuts[c.id].notiz; });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-cut][data-k]') : null;
+    if (!b) return;
+    var cut = state.cuts[b.getAttribute('data-cut')];
+    var k = b.getAttribute('data-k');
+    var v = +b.getAttribute('data-v');
+    cut[k] = cut[k] === v ? 0 : v;
+    save(); paint();
+  });
+  document.addEventListener('change', function (e) {
+    var r = e.target.getAttribute && e.target.getAttribute('data-radio');
+    if (r) { state[r] = e.target.value; save(); }
+  });
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.id === 'name') state.name = t.value;
+    else if (t.id === 'drink') state.drink = t.value;
+    else if (t.getAttribute('data-note')) state.cuts[t.getAttribute('data-note')].notiz = t.value;
+    else return;
+    save();
+  });
+
+  var confirmBox = document.getElementById('confirm');
+  document.getElementById('reset').addEventListener('click', function () { confirmBox.hidden = false; });
+  document.getElementById('no').addEventListener('click', function () { confirmBox.hidden = true; });
+  document.getElementById('yes').addEventListener('click', function () {
+    state.name = ''; state.fav = ''; state.duell = ''; state.drink = '';
+    CUTS.forEach(function (c) { state.cuts[c.id] = { zart: 0, saft: 0, wuerze: 0, kruste: 0, gesamt: 0, notiz: '' }; });
+    save(); fillFields(); paint(); confirmBox.hidden = true;
+  });
+
+  build(); load(); fillFields(); paint();
+})();
+</script>
+</body>
+</html>
